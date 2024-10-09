@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -31,22 +32,16 @@ func New(title, content string) (*Note, error) {
 }
 
 func (note *Note) Save() error {
-	jsonData, err := json.MarshalIndent(note, "", "   ")
+	filename := strings.ReplaceAll(note.Title, " ", "_")
+	filename = strings.ToLower(filename) + ".json"
+
+	json, err := json.Marshal(note)
+
 	if err != nil {
-		return fmt.Errorf("error when save: %v", err)
+		return err
 	}
 
-	file, err := os.Create("note.json")
-	if err != nil {
-		return fmt.Errorf("error when save: %v", err)
-	}
-
-	defer file.Close()
-
-	_, err = file.Write(jsonData)
-	if err != nil {
-		return fmt.Errorf("error when save: %v", err)
-	}
+	os.WriteFile(filename, json, 0644)
 
 	return nil
 }
