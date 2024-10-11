@@ -47,7 +47,6 @@ func (note *Note) Save() error {
 }
 
 func (note *Note) Log() {
-	fmt.Println("\n------------ Your Note ------------\n")
 	fmt.Printf("Note title: %v \n", note.Title)
 	fmt.Printf("Note Content: %v \n", note.Content)
 	fmt.Printf("Note CreatedAt: %v \n", note.CreatedAt.Format("02/01/2006 15:04:05"))
